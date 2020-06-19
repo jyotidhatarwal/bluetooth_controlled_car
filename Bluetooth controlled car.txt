@@ -1,0 +1,156 @@
+// initial 1 is for right and 2 is for left
+
+const int ENA_m1 = 6;  //initializing pin 3 as pwm
+const int in_11 = 4; //forward right
+const int in_12 = 7;
+//
+const int ENB_m1 = 5;  //initializing pin 5 as pwm
+const int in_13 = 2; // backward right
+const int in_14 = 3;
+//
+const int ENA_m2 = 11; // forward left 
+const int in_21 = 12; //
+const int in_22 = 13; //
+//
+const int ENB_m2 = 10; // backward left 10
+const int in_23 = 8; //8
+const int in_24 = 9; //9
+//
+char data=0; // for bluetooth
+
+void setup() {
+ pinMode(ENA_m1,OUTPUT); // we have to set pwm as output
+ pinMode(in_11,OUTPUT);  //logic pins are also set as output
+ pinMode(in_12,OUTPUT);
+ pinMode(ENB_m1,OUTPUT); // we have to set pwm as output
+ pinMode(in_13,OUTPUT);  //logic pins are also set as output
+ pinMode(in_14,OUTPUT);
+ pinMode(ENA_m2,OUTPUT);
+ pinMode(in_21,OUTPUT);  // logic pins for second motor driver
+ pinMode(in_22,OUTPUT);
+ pinMode(ENB_m2,OUTPUT);
+ pinMode(in_23,OUTPUT);
+ pinMode(in_24,OUTPUT);
+
+ Serial.begin(9600);
+}
+
+ void goAhead()  {
+  digitalWrite(in_11,HIGH); // forward right
+  digitalWrite(in_12,LOW);
+  analogWrite(ENA_m1,200);
+
+  digitalWrite(in_13,HIGH); // backward right
+  digitalWrite(in_14,LOW);
+  analogWrite(ENB_m1,200);
+
+  digitalWrite(in_21,HIGH); // forward left
+  digitalWrite(in_22,LOW);
+  analogWrite(ENA_m2,200);
+
+  digitalWrite(in_23,HIGH); // backward left
+  digitalWrite(in_24,LOW);
+  analogWrite(ENB_m2,200);
+}
+
+void goBack() {
+  digitalWrite(in_11,LOW); // forward right
+  digitalWrite(in_12,HIGH);
+  analogWrite(ENA_m1,200);
+
+  digitalWrite(in_13,LOW); // backward right
+  digitalWrite(in_14,HIGH);
+  analogWrite(ENB_m1,200);
+
+  digitalWrite(in_21,LOW); // forward left
+  digitalWrite(in_22,HIGH);
+  analogWrite(ENA_m2,200);
+
+  digitalWrite(in_23,LOW); // backward left
+  digitalWrite(in_24,HIGH);
+  analogWrite(ENB_m2,200);
+  
+}
+void goRight()  {
+  digitalWrite(in_11,LOW); // forward right
+  digitalWrite(in_12,LOW);
+  analogWrite(ENA_m1,200);
+
+  digitalWrite(in_13,HIGH); // backward right
+  digitalWrite(in_14,LOW);
+  analogWrite(ENB_m1,200);
+
+  digitalWrite(in_21,HIGH); // forward left
+  digitalWrite(in_22,LOW);
+  analogWrite(ENA_m2,200);
+
+  digitalWrite(in_23,HIGH); // backward left
+  digitalWrite(in_24,LOW);
+  analogWrite(ENB_m2,200);
+  
+}
+
+void goLeft() {
+  digitalWrite(in_11,HIGH); // forward right
+  digitalWrite(in_12,LOW);
+  analogWrite(ENA_m1,200);
+
+  digitalWrite(in_13,HIGH); // backward right
+  digitalWrite(in_14,LOW);
+  analogWrite(ENB_m1,200);
+
+  digitalWrite(in_21,LOW); // forward left
+  digitalWrite(in_22,LOW);
+  analogWrite(ENA_m2,200);
+
+  digitalWrite(in_23,HIGH); // backward left
+  digitalWrite(in_24,LOW);
+  analogWrite(ENB_m2,200);
+  
+}
+ void stopRobot()  {
+  digitalWrite(in_11,LOW); // forward right
+  digitalWrite(in_12,LOW);
+  analogWrite(ENA_m1,200);
+
+  digitalWrite(in_13,LOW); // backward right
+  digitalWrite(in_14,LOW);
+  analogWrite(ENB_m1,200);
+
+  digitalWrite(in_21,LOW); // forward left
+  digitalWrite(in_22,LOW);
+  analogWrite(ENA_m2,200);
+
+  digitalWrite(in_23,LOW); // backward left
+  digitalWrite(in_24,LOW);
+  analogWrite(ENB_m2,200);
+  
+ }
+ void loop() {
+   if (Serial.available() > 0) {
+    data = Serial.read();
+     if (data == '1') {
+      Serial.print("stop");
+      stopRobot();
+
+    }
+     else if (data == '2') {
+      Serial.print("goAhead");
+      goAhead();
+  }
+   else if (data == '3') {
+    Serial.print("goRight");
+    goRight();
+   }
+   else if (data == '4') {
+    Serial.print("goBack");
+    goBack();
+   }
+   else if (data == '5') {
+    Serial.print("goLeft");
+    goLeft();
+   }
+
+    }
+  
+ }
